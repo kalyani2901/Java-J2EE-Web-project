@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="List User"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h4><h:outputText value="Welcome, &nbsp;#{serviceController.user.lastName}&nbsp;#{serviceController.user.firstName}"  style="float: left"/></h4>
+            <h:link outcome="/index" value="Logout" style="float: right"/><p/><br/>
+            
+            <h:form styleClass="jsfcrud_list_form">
+                <f:validateBean disabled="true"> 
+                    <table class="table table-bordered table-striped" style="text-align: center">
+        <tr>
+            <td>User No:</td><td>First Name:</td>
+            <td>Last Name:</td><td>Email :</td><td>Type:</td><td></td>
+        </tr><tr>
+            <td><h:inputText id="serviceNo" value="#{userController.user.userId}" maxlength="6" size="5"/></td>
+            <td><h:inputText id="fname" value="#{userController.user.firstName}" /></td>
+            <td><h:inputText id="lname" value="#{userController.user.lastName}" /></td>
+            <td><h:inputText id="description" value="#{userController.user.email}" /></td>
+            <td><h:inputText id="type" value="#{userController.user.type}" size="10"/></td>
+            <td><h:commandButton type="submit" id="searchName" value="Search" action="#{userController.searchUser(userController.user)}"/></td>
+        </tr></table>
+                
+               <h:commandButton action="#{userController.prepareList}" value="Show All Users"  style="float: right" styleClass="btn-warning" immediate="true"/>
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="No User Found" rendered="#{userController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{userController.items.rowCount > 0}">
+                    <h:dataTable value="#{userController.items}" var="item" border="0" cellpadding="2" cellspacing="0" 
+                                 rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="width:100%;border:solid 1px;text-align: center">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="ID"/>
+                            </f:facet>
+                            <h:outputText value="#{item.userId}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="First Name"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firstName}"/>
+                        </h:column>
+                        
+                            <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Last Name"/>
+                            </f:facet>
+                            <h:outputText value="#{item.lastName}"/>
+                        </h:column>
+                             <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Email"/>
+                            </f:facet>
+                            <h:outputText value="#{item.email}"/>
+                        </h:column>
+                             
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Operation"/>
+                            </f:facet>
+                            <h:commandLink action="#{userController.prepareView}" value="View" immediate="true"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{userController.prepareEdit}" value="Edit" immediate="true"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{userController.destroy()}" value="Delete" immediate="true"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+            <h:commandButton value="Add User" action="#{userController.prepareAdd}" styleClass="btn-warning" immediate="true"/>&nbsp;
+            <h:commandButton value="Manage Service" action="#{serviceController.prepareList()}" styleClass="btn-warning" immediate="true"/>&nbsp;
+            <br />
+                </f:validateBean>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

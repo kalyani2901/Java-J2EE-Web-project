@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">Create Service</ui:define>
+        <ui:define name="body">
+            <h4><h:outputText value="Welcome, &nbsp;#{serviceController.user.lastName}&nbsp;#{serviceController.user.firstName}"  style="float: left"/></h4>
+            <h:link outcome="/index" value="Logout" style="float: right"/><p/><br/>
+            
+            <center><p/><br/>Put new service information below<br/>
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+                <h:form><p/><br/>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="ServiceNo" for="serviceNo" />
+                    <h:inputText id="serviceNo" value="#{serviceController.selected.serviceNo}" required="true"/>
+                    <h:outputLabel value="ServiceName" for="serviceName" />
+                    <h:inputText id="serviceName" value="#{serviceController.selected.serviceName}" required="true">
+                        <f:validateRegex pattern= "[a-zA-Z]+"/><f:validateLength minimum="3" maximum="20" /></h:inputText>
+                    <h:outputLabel value="type" for="type" />
+                    <h:inputText id="type" value="#{serviceController.selected.type}" >
+                        <f:validateRegex pattern= "[a-zA-Z]+"/><f:validateLength minimum="3" maximum="20" /></h:inputText>
+                    <h:outputLabel value="Thumbnail" for="thumbnail" />
+                    <h:inputText id="thumbnail" value="#{serviceController.selected.thumbnail}"/>
+                    <h:outputLabel value="Description" for="description" />
+                    <h:inputText id="description" value="#{serviceController.selected.description}" />
+                </h:panelGrid>
+                <br />
+            <h:commandButton value="Save" action="#{serviceController.addService()}" styleClass="btn-warning"/>&nbsp;
+            <h:commandButton value="Show All" action="#{serviceController.prepareList}" styleClass="btn-warning" immediate="true"/>&nbsp;
+            
+            </h:form>
+                </center>
+        </ui:define>
+    </ui:composition>
+
+</html>

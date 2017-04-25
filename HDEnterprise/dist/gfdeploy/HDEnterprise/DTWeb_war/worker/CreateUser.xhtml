@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Create New User"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+             <h4><h:outputText value="Welcome, &nbsp;#{serviceController.user.lastName}&nbsp;#{serviceController.user.firstName}"  style="float: left"/></h4>
+            <h:link outcome="/index" value="Logout" style="float: right"/><p/><br/>
+            
+            <center><p/><br/>Put new user information below<br/>
+                
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form><p/><br/>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="First Name" />
+                    <h:inputText id="userFname" value="#{userController.user.firstName}"  required="true" >
+			<f:validateRegex pattern= "[a-zA-Z]+"/><f:validateLength minimum="3" maximum="10" /></h:inputText>
+                    <h:outputLabel value="Last Name" />
+                    <h:inputText id="userLname" value="#{userController.user.lastName}" >
+                        <f:validateRegex pattern= "[a-zA-Z]+"/></h:inputText>
+                    <h:outputLabel value="Email" />
+                    <h:inputText id="email" value="#{userController.user.email}" required="#{param['form:save']==null}"/>
+                    <h:outputLabel value="Password" />
+                    <h:inputText id="password" value="#{userController.user.password}" />
+                    <h:outputLabel value="Type:" />
+                    <h:selectOneRadio  value="#{userController.user.type}">
+                        <f:selectItem itemValue="Public" itemLabel="Public" />
+                        <f:selectItem itemValue="Gov Worker" itemLabel="Gov Worker" />	   			
+                    </h:selectOneRadio>
+                    <h:outputLabel value="Address" />
+                    <h:inputText id="address" value="#{userController.user.address}" />
+                    <h:outputLabel value="Phone no." />
+                    <h:inputText id="phoneNo" value="#{userController.user.phoneNumber}" />
+                </h:panelGrid>
+                <br />
+                 <h:commandButton id ="save" value="Save" action="#{userController.addUser()}" styleClass="btn-warning"/>&nbsp;
+            <h:commandButton value="Show All" action="#{userController.prepareList}" styleClass="btn-warning" immediate="true"/>&nbsp;
+            
+            </h:form></center>
+        </ui:define>
+    </ui:composition>
+</html>

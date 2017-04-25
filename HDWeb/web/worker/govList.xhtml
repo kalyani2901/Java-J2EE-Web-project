@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Service List"></h:outputText>
+        </ui:define>
+        
+        <ui:define name="body">
+            
+            <h:form styleClass="jsfcrud_list_form">
+                
+                <h4><h:outputText value="Welcome, &nbsp;#{serviceController.loginButton().lastName}&nbsp;#{serviceController.loginButton().firstName}"  style="float: left"/></h4>
+            <h:commandLink action="#{serviceController.logout()}" value="Logout" style="float: right"/><p/><br/>
+            
+        <table class="table table-bordered table-striped">
+        <tr>
+            <td>Service No:</td><td>Service Name:</td>
+            <td>Service Type:</td><td>Description:</td><td></td>
+        </tr><tr>
+            <td><h:inputText  id="serviceNo" value="#{serviceController.selected.serviceNo}" /></td>
+            <td><h:inputText id="name" value="#{serviceController.selected.serviceName}" /></td>
+            <td><h:inputText id="type" value="#{serviceController.selected.type}" /></td>
+            <td><h:inputText id="description" value="#{serviceController.selected.description}" /></td>
+            <td><h:commandButton type="submit" id="searchName" value="Search" action="#{serviceController.searchService()}" styleClass="btn"/></td>
+        </tr></table>
+                
+                <h:commandLink action="#{serviceController.prepareList}" value="Show All"  style="float: right"/>
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:outputText escape="false" value="No Service Found" rendered="#{serviceController.items.rowCount == 0}"/>
+            <h:panelGroup rendered="#{serviceController.items.rowCount > 0}">
+                <h:dataTable value="#{serviceController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="width: 100%;border:solid 1px">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="serviceNo"/>
+                        </f:facet>
+                        <h:outputText value="#{item.serviceNo}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="serviceName"/>
+                        </f:facet>
+                        <h:outputText value="#{item.serviceName}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="thumbnail"/>
+                        </f:facet>
+                <img style='border:0; width: 60px;height:60px' src='#{item.thumbnail}'/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Operation"/>
+                        </f:facet>
+                        <h:commandLink action="#{serviceController.prepareGovView()}" value="view"/>
+                        <h:outputText value=" "/>
+                        <h:commandLink action="#{serviceController.prepareEdit()}" value="edit"/>
+                        <h:outputText value=" "/>
+                        <h:commandLink action="#{serviceController.destroy()}"  onclick="return confirm('You are going to delete?')" value="delete"/>
+                    </h:column>
+                </h:dataTable>
+            </h:panelGroup>
+            <br />
+            <h:commandButton value="Add Service" action="#{serviceController.prepareAdd()}" styleClass="btn-warning"/>&nbsp;
+            <h:commandButton value="Manage User" action="#{userController.prepareList()}" styleClass="btn-warning"/>&nbsp;
+            <h:outputLink value="http://localhost:51546/HDWebService/ws.html" style="float: right">
+                View and create service through WebService</h:outputLink>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

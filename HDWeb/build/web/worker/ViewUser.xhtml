@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="View User"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h4><h:outputText value="Welcome, &nbsp;#{serviceController.user.lastName}&nbsp;#{serviceController.user.firstName}"  style="float: left"/></h4>
+            <h:link outcome="/index" value="Logout" style="float: right"/><p/><br/>
+            
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form styleClass="jsfcrud_list_form">
+                   <h3>User Details</h3>
+               
+                   <h:dataTable value="#{userController.user}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="width:100%;border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="ID"/>
+                            </f:facet>
+                            <h:outputText value="#{item.userId}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="First Name"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firstName}"/>
+                        </h:column>
+                        
+                            <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Last Name"/>
+                            </f:facet>
+                            <h:outputText value="#{item.lastName}"/>
+                        </h:column>
+                             <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Email"/>
+                            </f:facet>
+                            <h:outputText value="#{item.email}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Type"/>
+                            </f:facet>
+                            <h:outputText value="#{item.type}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Address"/>
+                            </f:facet>
+                            <h:outputText value="#{item.address}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Mobile"/>
+                            </f:facet>
+                            <h:outputText value="#{item.phoneNumber}"/>
+                        </h:column>
+                    </h:dataTable>
+                
+                <h:commandLink action="#{userController.prepareAdd}" value="Create New User" />&nbsp;
+               <h:commandButton action="#{userController.prepareList}" value="Show All Users"  style="float: right" styleClass="btn-warning"/>
+                
+                 <h3>Service booked by this user</h3>
+             
+                <h:outputText escape="false" value="No record Found" rendered="#{serviceController.getServiceUseBypUser(userController.user).size() == 0}"/>
+                <h:panelGroup rendered="#{serviceController.getServiceUseBypUser(userController.user).size() > 0}">
+                    <h:dataTable value="#{serviceController.getServiceUseBypUser(userController.user)}" var="su" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="width: 100%;border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Record No"/>
+                            </f:facet>
+                            <h:outputText value="#{su.serviceUseId}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="serviceName"/>
+                            </f:facet>
+                            <h:outputText value="#{su.services.serviceName}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="used Date"/>
+                            </f:facet>
+                            <h:outputText value="#{su.useDate}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="linked worker"/>
+                            </f:facet>
+                            <h:outputText value="#{su.linkWoker}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

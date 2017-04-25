@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+
+<div class="container">
+<ui:composition template="/template.xhtml">
+    <div class="navbar navbar-inverse">
+        <div class="navbar-brand">
+        <ui:define name="title">My Account</ui:define>
+        </div>
+    </div>  
+    <ui:define name="body">
+        <h4><h:outputText value="Welcome, &nbsp;#{serviceController.user.lastName}&nbsp;#{serviceController.user.firstName}" style="float: left"/></h4>
+        <h:form styleClass="jsfcrud_list_form">
+            <h:commandLink action="#{serviceController.logout()}" value="Logout" style="float: right"/> <p/><br/>
+            <h:commandLink action="#{serviceController.prepareList}" value="Back to Service List"  style="float: right"/>
+            <p/><br/><p/><br/>
+            <center> 
+            <h3>User Details</h3>
+            <h:panelGrid columns="2" width="40%" border="1" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="text-align: center; font-size: 22px;">
+                <h:outputText value="User Id   "/>
+                <h:outputText value="#{serviceController.user.userId}" />
+                <h:outputText value="First Name   " />
+                <h:outputText value="#{serviceController.user.firstName}" />
+                <h:outputText value="Last Name   " />
+                <h:outputText value="#{serviceController.user.lastName}" />
+                <h:outputText value="Email   " />
+                <h:outputText value="#{serviceController.user.email}" />
+                <h:outputText value="Type   " />
+                <h:outputText value="#{serviceController.user.type}" />
+                <h:outputText value="Address   " />
+                <h:outputText value="#{serviceController.user.address}" />
+                <h:outputText value="Phone No   " />
+                <h:outputText value="#{serviceController.user.phoneNumber}" />
+            </h:panelGrid>
+                
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            
+            <h3>Service you have booked</h3>
+            <h:outputText escape="false" value="No record Found" rendered="#{serviceController.getServiceUseByUser().size() == 0}"/>
+            <h:panelGroup rendered="#{serviceController.getServiceUseByUser().size()>0}">
+                <h:dataTable value="#{serviceController.getServiceUseByUser()}" var="su" border="0" cellpadding="2" cellspacing="0" 
+                             rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="width: 100%;border:solid 1px;text-align: center">
+                    <h:column>
+                        <f:facet name="header"><h:outputText value="Record No"/></f:facet>
+                        <h:outputText value="#{su.serviceUseId}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header"><h:outputText value="serviceName"/></f:facet>
+                        <h:outputText value="#{su.services.serviceName}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header"><h:outputText value="Finished"/></f:facet>
+                        <h:outputText value="#{su.status}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header"><h:outputText value="used Date"/></f:facet>
+                        <h:outputText value="#{su.useDate}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header"><h:outputText value="linked worker"/></f:facet>
+                        <h:outputText value="#{su.linkWoker}"/>
+                    </h:column>
+                </h:dataTable>
+            </h:panelGroup><br />
+            </center>
+                
+        </h:form>
+    </ui:define>
+</ui:composition>
+</div>
+</html>
